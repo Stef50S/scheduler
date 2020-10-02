@@ -39,3 +39,26 @@ export function getInterview(state, interview) {
 
   return resultingInterview;
 }
+
+export function getInterviewersForDay(state, day) {
+  const interviewers = []; // Store results here
+  const availableDays = state.days; // All days saved in state
+
+  if(availableDays.length === 0) {
+    return interviewers; // Return empty array
+  }
+
+  const dayObj = availableDays.find(currentDay => currentDay.name === day);
+
+  if(!dayObj) { // If day provided is not found
+    return interviewers; 
+  }
+
+  const dayInterviewers = dayObj.interviewers;
+
+  for(let interviewerID of dayInterviewers) {
+    interviewers.push(state.interviewers[interviewerID]);
+  }
+
+  return interviewers;
+}

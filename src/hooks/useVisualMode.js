@@ -9,17 +9,19 @@ export default function useVisualMode(initialMode) {
     transition: (newMode, replace = false) => {
       setMode(newMode);
       if(replace) {
-        history[history.length-1] = newMode; // Replace previous mode with the current mode
-        setHistory(history);
+        setHistory([...history.slice(0, history.length-1), newMode]); // Replace previous mode with the current mode
       } else {
         setHistory([...history, newMode]);
+        console.log(
+          "history", history,
+          "newMode", newMode
+        );
       }
     },
     back: () => {
       if(history.length > 1) {
-        history.pop(); // Remove current mode
-        setHistory(history);
-        setMode(history[history.length-1]); // Previous mode is now at the end of the array
+        setHistory([...history.slice(0, history.length-1)]); // Remove the current node
+        setMode(history.slice(-2)[0]); // Previous mode is now the new mode
       }
     }
   };
